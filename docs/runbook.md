@@ -136,9 +136,9 @@ scripts/sync-models.sh             # 备份 → 运行副本，只增不删
 | 文档 / 工作流改坏 | `git checkout -- docs/ workflows/`；整片改动都不想要就 `git restore .` |
 | 改了但还没提交 | `git diff` 看清再决定；`git restore <文件>` 丢弃单个文件 |
 
-本项目已纳入 git（2026-11-04，根提交 `cc020b3`，54 文件 / 16 软链）。入库范围与排除项见根目录 `.gitignore` 与 `outputs/README.md`。
+本项目已纳入 git，并推送到 GitHub 公开仓 `earnan/ai-image-lab`（2026-11-04；初始 54 文件 / 16 软链，经当次脱敏重写后为 42 文件、软链改为本机生成不入库）。根提交哈希每次历史重写都会变，用 `git rev-list --max-parents=0 HEAD` 查，别抄文档里的旧值。入库范围与排除项见根目录 `.gitignore` 与 `outputs/README.md`。
 
-**本地 git ≠ 备份**：未设 remote。`git checkout` 只能挡"手滑改坏"，挡不了整盘丢失——权重的唯一副本仍在 HDD 备份侧，靠 `scripts/sync-models.sh` 维护。
+**公开仓 ≠ 权重备份**：仓里只有文档、脚本与工作流，权重实体的唯一副本仍在 HDD 备份侧，靠 `scripts/sync-models.sh` 维护。`git checkout` 只挡"手滑改坏"，挡不了整盘丢失。
 
 ## 挂载依赖提醒
 

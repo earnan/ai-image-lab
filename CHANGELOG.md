@@ -12,7 +12,7 @@
 - 文档内的本机绝对路径统一替换为占位符：外置 SSD 卷名 → `<SSD卷>`、机械盘卷名 → `<HDD卷>`、用户目录 → `<用户目录>`、项目根 → `<项目根>`
 - `PATHS.env` 拆成两件：`PATHS.env.example`（占位符模板，入库）+ `PATHS.env`（本机真实值，已入 `.gitignore`）。模板只改顶部两行卷名，其余变量全部由其派生
 - **16 条软链从索引摘除**：软链存的是目标字符串，而目标字符串就是本机卷名与目录布局，入库等于公开磁盘结构。改由 `relink.sh` 按 `AIIL_LINK_MAP` 在本机生成，`apps/` 与 `models/` 只留说明 README
-- 全历史重写（`git filter-repo --replace-text`）抹掉旧提交里的真实路径；旧哈希全部失效，根提交引用回填为 `cc020b3`
+- 全历史重写（`git filter-repo --blob-callback`）抹掉旧提交里的真实路径、平台追踪串与 AIGC 块；旧哈希全部失效。文档里原本写死的根提交哈希改为运行时查询，免得每次重写后又失效一遍
 
 **代价**
 旧提交哈希不可再引用；换机流程多一步 `cp PATHS.env.example PATHS.env`。
@@ -47,7 +47,7 @@ L4 仍未通（无 API KEY）。L1 / L2 / L3 本轮均有当日实测产物，�
 两天里两次"改坏只能手工救"：脚本被覆盖后靠 `.bak` 抢回来，文档重写后靠 `docs/archive/` 手抄留档。而 runbook 回滚段一直写着「或 `git checkout`（若已入库）」——一条悬空的逃生路线，因为项目根本不在 git 里。趁文档骨架刚立完、工作区是干净基线，把版本管理补上，这条路线才成立；顺带修掉 runbook 里那句带括号的不确定表述。
 
 **做了什么**
-- `git init -b main`，根提交 `cc020b3`：54 文件 / 19718 行，`.git` 456K
+- `git init -b main`，根提交：54 文件 / 19718 行，`.git` 456K（该哈希已随 v0.2.3 的历史重写失效，当前根提交用 `git rev-list --max-parents=0 HEAD` 查询）
 - 新增 `.gitignore`：`outputs/**`（只留 README）、`scripts/.env`（L4 API KEY 实体）、`_sdwebui-backup/`、`__pycache__`、`.DS_Store`
 - 新增 `outputs/README.md`：四个子目录的来源与写入配置点、产物不入库的依据、清理前检查项
 - `apps/` 3 个 + `models/` 13 个软链入库（mode 120000，git 只存指向字符串，不递归外部实体）
