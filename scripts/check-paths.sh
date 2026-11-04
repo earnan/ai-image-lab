@@ -39,16 +39,15 @@ check AIIL_APP_DT         "$AIIL_APP_DT"
 check AIIL_BACKUP_MODELS  "$AIIL_BACKUP_MODELS"
 
 echo
-echo "--- 软链入口 ---"
-for x in sd-webui comfyui draw-things; do
-  t="$AIIL_ROOT/apps/$x"
-  if [ -L "$t" ] && [ -e "$t" ]; then echo "✅ apps/$x -> $(readlink "$t")"
-  else echo "❌ apps/$x 失效"; fail=$((fail+1)); fi
-done
-for m in legacy-sd15 diffusion_models text_encoders unet vae; do
-  t="$AIIL_ROOT/models/$m"
-  if [ -L "$t" ] && [ -e "$t" ]; then echo "✅ models/$m -> $(readlink "$t")"
-  else echo "❌ models/$m 失效"; fail=$((fail+1)); fi
+echo "--- 软链入口（AIIL_LINK_MAP 全量）---"
+for entry in "${AIIL_LINK_MAP[@]}"; do
+  link=${entry%%|*}; t="$AIIL_ROOT/$link"
+  if [ -L "$t" ] && [ -e "$t" ]; then
+    echo "✅ $link -> $(readlink "$t")"
+  else
+    cur=$(readlink "$t" 2>/dev/null)
+    echo "❌ $link 失效（当前指向: ${cur:-未建链} → 应为 ${entry#*|}）"; fail=$((fail+1))
+  fi
 done
 
 echo

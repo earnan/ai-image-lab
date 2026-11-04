@@ -16,6 +16,26 @@ scripts/start-drawthings.sh   # L1 出图（实测 33s）
 scripts/start-comfyui.sh      # L2 服务，浏览器开 127.0.0.1:8188
 ```
 
+## 换机重建
+
+仓库里存的是文档、脚本、工作流与 **16 条软链的指向**；引擎与权重在盘上，不在仓内。换一台机器按三步走：
+
+```bash
+# 1. 克隆（放哪都行，后面以 PATHS.env 为准）
+git clone git@github.com:earnan/ai-image-lab.git ~/ai-image-lab && cd ~/ai-image-lab
+
+# 2. 改 PATHS.env 顶部的卷与根变量，指向新机的实际路径
+vi PATHS.env
+
+# 3. 一行恢复全部 16 条软链（幂等；目标不存在则跳过，不造坏链）
+scripts/relink.sh
+scripts/check-paths.sh    # 复核：应 0 处悬空
+```
+
+`relink.sh --dry-run` 只看不改，`--check` 只报状态。它按 `PATHS.env` 的 `AIIL_LINK_MAP` 逐条建链，所以**增删模型目录只需改那一处**。
+
+clone 之后软链本来就断（git 只存指向字符串），这不是故障；卷没挂载时 `relink.sh` 会全数跳过，挂上重跑即可。
+
 ## 去哪看
 
 | 想知道 | 文件 |
