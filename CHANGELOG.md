@@ -3,6 +3,30 @@
 
 格式：每次变更记 **版本 / 日期 / Why / 做了什么**。Why 必填——只记做了什么，半年后没人知道为什么。
 
+## v0.2.2 — 2026-11-04 — 四层可用性复测：修正"全部可用"的结论
+
+**Why**
+STATUS 原写着"四层出图链路全部可用"，但那是凭"端口在、文件在、脚本在"得出的。本轮按逐层实证复测，发现两处不成立：L2 的 4 类 loader 接口返回 500（实际不可用），L4 仍缺 KEY。一句话结论若不修正，下次会话会照着错的前提干活。
+
+**做了什么**
+- 新增 `docs/reference/四层可用性核验.md`：每层两条证据的核验口径、三个"看起来正常实则不可用"的坑、本轮实测数据与根因
+- `docs/STATUS.md`：一句话改为"L1/L3 可用、L2 待重启、L4 缺 KEY"；阻塞清单补 L2 一条；健康检查加 loader 探活命令；观察项加"配置热改无效"
+- `docs/runbook.md`：新增 §2.1 —— loader 返回 500 的定位与处理（配置只在启动时读一次，改完必须重启）
+- `docs/reference/workflows-就绪状态.md`：补"模型齐备 ≠ 能跑"的引擎侧前置；记录解析工作流的两个坑（subgraph 嵌套、MarkdownNote 里的 URL 混入）
+- `docs/README.md`：导航补四层核验入口
+
+**复测数据**
+- L1 `flux_2_klein_4b_q6p.ckpt` 512×512/4 步：`Total generation time 29.49s`（采样均值 4.10s/步）
+- L2：`8188` 在监听、GGUF 模型可见，但 `VAELoader`/`CheckpointLoaderSimple`/`LoraLoader`/`UpscaleModelLoader` 均 500，根因为进程内缓存旧路径 `<SSD卷>/旧权重目录/sd-webui-models/*`
+- L3：`/sdapi/v1/sd-models` 200，已加载 `chomni`、`CounterfeitV25_25`
+- L4：`scripts/.env` 不存在，未通
+
+**L2 修复（经确认后执行）**
+旧 PID 64531 → 新 79432，重启 10s 就绪。`VAELoader` / `CheckpointLoaderSimple` / `LoraLoader` / `UpscaleModelLoader` / `UnetLoaderGGUF` / `CLIPLoaderGGUF` 全部 200；模型可见性恢复（VAE 3 项、ckpt 3 项含 legacy-sd15、LoRA 5 项）。复跑 flux2-klein-4b 蒸馏分支 512×512 / 4 步，出图 **81.2s**（首次含加载），产物 `outputs/comfyui/verify_L2_20261104_00001_.png`。
+
+**边界**
+L4 仍未通（无 API KEY）。L1 / L2 / L3 本轮均有当日实测产物，可视为当前基线。
+
 ## v0.2.1 — 2026-11-04 — 纳入 git 版本管理
 
 **Why**

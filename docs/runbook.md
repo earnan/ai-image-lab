@@ -58,6 +58,35 @@ grep base_path "$AIIL_APP_COMFY/extra_model_paths.yaml"
 # 应为 <SSD卷>/ai-image-lab/models/legacy-sd15/
 ```
 
+### 2.1 loader 节点返回 500（配置已对、进程还在读旧值）
+
+**症状**：ComfyUI 界面能开、`8188` 在监听，但 `VAELoader` / `CheckpointLoaderSimple` / `LoraLoader` / `UpscaleModelLoader` 一用就报错；查接口是 500：
+
+```bash
+curl -s -o /dev/null -w "%{http_code}\n" http://127.0.0.1:8188/object_info/VAELoader
+# 200 = 正常；500 = 进程内部的目录列表还是旧的
+```
+
+日志里的真实原因（`/tmp/comfyui_restart.log`）：
+
+```text
+FileNotFoundError: [Errno 2] No such file or directory: '<SSD卷>/旧权重目录/sd-webui-models/Lora'
+  at folder_paths.py get_filename_list -> os.path.getmtime(folder)
+```
+
+**根因**：`extra_model_paths.yaml` 只在**进程启动时**读一次，之后 `get_filename_list()` 用内存缓存。改配置后不重启，进程仍按旧路径枚举，目录已被改名就抛 `FileNotFoundError`。
+
+**处理**：先确认配置本身对，再重启进程。
+
+```bash
+grep -E "base_path|checkpoints|vae|loras|upscale_models" "$AIIL_APP_COMFY/extra_model_paths.yaml"
+# 期望 base_path: <SSD卷>/ai-image-lab/models/ 与 .../models/legacy-sd15/
+# 逐个确认子目录存在（含 legacy_a1111 的 ESRGAN —— 空目录也算存在，缺目录才会 500）
+scripts/start-comfyui.sh      # 重启后才生效
+```
+
+**规则**：改 `extra_model_paths.yaml`、加删模型目录 → **必须重启**。判断「是不是这个坑」，先看 `/object_info/<loader>` 是不是 500，而不是去看配置文件。当日实测：重启后 10s 就绪，6 类 loader 全 200。
+
 ### 3. L3 启动报找不到项目 / 路径错乱
 
 A1111 用 `install_dir` + `clone_dir` **拼接**出项目路径（见 `webui-user.sh`）。所以：

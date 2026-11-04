@@ -7,6 +7,7 @@
 |---|---|
 | 这套系统由什么组成、实体在哪、怎么启动 | [../MAP.md](../MAP.md) |
 | 现在什么状态、卡在哪、还健康吗 | [STATUS.md](STATUS.md) |
+| 四层现在到底能不能用、怎么核验 | [reference/四层可用性核验.md](reference/四层可用性核验.md) |
 | 怎么启动某个引擎 | [runbook.md](runbook.md) §启动 |
 | 出图跑不起来 / 产物跑丢了 | [runbook.md](runbook.md) §排查 |
 | 这个项目到底在解决什么问题（给新人看） | [overview.md](overview.md) |
@@ -26,7 +27,7 @@
 | `overview.md` | 项目全貌，给第一次接触的人 |
 | `design/` | 设计推理链与方案选型（编号，只留最新版） |
 | `research/` | 技术调研与实测对比 |
-| `reference/` | 参考资料（少量外部 .docx/.pdf 可放此） |
+| `reference/` | 参考资料 + 可复用核验清单（少量外部 .docx/.pdf 可放此） |
 | `inbox/` | 未归类笔记，永久保留 |
 | `archive/` | 历史，只增不改 |
 
