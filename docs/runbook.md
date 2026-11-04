@@ -136,7 +136,7 @@ scripts/sync-models.sh             # 备份 → 运行副本，只增不删
 | 文档 / 工作流改坏 | `git checkout -- docs/ workflows/`；整片改动都不想要就 `git restore .` |
 | 改了但还没提交 | `git diff` 看清再决定；`git restore <文件>` 丢弃单个文件 |
 
-本项目已纳入 git（2026-11-04，根提交 `7248621`，54 文件 / 16 软链）。入库范围与排除项见根目录 `.gitignore` 与 `outputs/README.md`。
+本项目已纳入 git（2026-11-04，根提交 `cc020b3`，54 文件 / 16 软链）。入库范围与排除项见根目录 `.gitignore` 与 `outputs/README.md`。
 
 **本地 git ≠ 备份**：未设 remote。`git checkout` 只能挡"手滑改坏"，挡不了整盘丢失——权重的唯一副本仍在 HDD 备份侧，靠 `scripts/sync-models.sh` 维护。
 

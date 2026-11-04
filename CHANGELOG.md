@@ -32,7 +32,7 @@ L4 仍未通（无 API KEY）。L1 / L2 / L3 本轮均有当日实测产物，�
 两天里两次"改坏只能手工救"：脚本被覆盖后靠 `.bak` 抢回来，文档重写后靠 `docs/archive/` 手抄留档。而 runbook 回滚段一直写着「或 `git checkout`（若已入库）」——一条悬空的逃生路线，因为项目根本不在 git 里。趁文档骨架刚立完、工作区是干净基线，把版本管理补上，这条路线才成立；顺带修掉 runbook 里那句带括号的不确定表述。
 
 **做了什么**
-- `git init -b main`，根提交 `7248621`：54 文件 / 19718 行，`.git` 456K
+- `git init -b main`，根提交 `cc020b3`：54 文件 / 19718 行，`.git` 456K
 - 新增 `.gitignore`：`outputs/**`（只留 README）、`scripts/.env`（L4 API KEY 实体）、`_sdwebui-backup/`、`__pycache__`、`.DS_Store`
 - 新增 `outputs/README.md`：四个子目录的来源与写入配置点、产物不入库的依据、清理前检查项
 - `apps/` 3 个 + `models/` 13 个软链入库（mode 120000，git 只存指向字符串，不递归外部实体）
