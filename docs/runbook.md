@@ -103,7 +103,13 @@ scripts/sync-models.sh             # 备份 → 运行副本，只增不删
 |---|---|
 | L3 命令行参数（`--outdir`） | `cp webui-user.sh.bak-before-outdir webui-user.sh` |
 | `PATHS.env` 路径 | 改回对应一行，然后 `scripts/check-paths.sh` 验证 |
-| 某脚本写坏 | 坏版本在 `docs/archive/scripts-broken-20261104/`；或 `git checkout`（若已入库） |
+| 某脚本写坏 | `git checkout -- scripts/<脚本名>`，从入库版本恢复；坏版本另存 `docs/archive/scripts-broken-20261104/` 备查 |
+| 文档 / 工作流改坏 | `git checkout -- docs/ workflows/`；整片改动都不想要就 `git restore .` |
+| 改了但还没提交 | `git diff` 看清再决定；`git restore <文件>` 丢弃单个文件 |
+
+本项目已纳入 git（2026-11-04，根提交 `7248621`，54 文件 / 16 软链）。入库范围与排除项见根目录 `.gitignore` 与 `outputs/README.md`。
+
+**本地 git ≠ 备份**：未设 remote。`git checkout` 只能挡"手滑改坏"，挡不了整盘丢失——权重的唯一副本仍在 HDD 备份侧，靠 `scripts/sync-models.sh` 维护。
 
 ## 挂载依赖提醒
 
