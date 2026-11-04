@@ -11,9 +11,14 @@
 
 set -uo pipefail
 
-BACKUP="<HDD卷>/work/data/models/sd-webui"
-RUNTIME="<SSD卷>/旧权重目录/sd-webui-models"
-LOG_DIR="$(cd "$(dirname "$0")/.." && pwd)/outputs"
+# 路径真相源统一走 PATHS.env（2026-11-04 修：原先硬编码 RUNTIME 指向已改名的
+# 旧路径 热数据/sd-webui-models，改名后本脚本 --check 直接 exit 3 失效）
+SELF_DIR=$(cd "$(dirname "$0")" && pwd)
+. "$SELF_DIR/../PATHS.env" || { echo "❌ 找不到 PATHS.env"; exit 2; }
+
+BACKUP="$AIIL_BACKUP_MODELS"
+RUNTIME="$AIIL_W_LEGACY_SD15"
+LOG_DIR="$AIIL_OUTPUTS"
 LOG="$LOG_DIR/sync-models.log"
 
 MODE="sync"
