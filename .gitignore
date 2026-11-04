@@ -35,9 +35,13 @@ temp/
 .idea/
 *.swp
 
-# ── 说明 ──
-# apps/ 与 models/ 下的 16 个软链是刻意入库的：git 只存指向字符串（几十字节），
-# 换机后照 README 重建即可。软链断了查 docs/runbook.md §排查 1，不要 cp 实体。
+# ── 软链不入库：目标字符串即本机卷名与目录布局，入库等于公开磁盘结构 ──
+# 指向关系收敛在 PATHS.env.example 的 AIIL_LINK_MAP，换机后 scripts/relink.sh 重建。
+# 软链断了查 docs/runbook.md §排查 1，不要 cp 实体。
+/apps/*
+!/apps/README.md
+/models/*
+!/models/README.md
 
 # ── 本机真实路径不入库，只提交模板 ──
 PATHS.env
