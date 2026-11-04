@@ -1,4 +1,3 @@
-
 # ai-image-lab
 
 M2 Mac mini 16GB 上的本地 AI 出图环境。四层引擎分工，跨两块外置盘，以本目录为唯一逻辑根。
@@ -10,7 +9,7 @@ M2 Mac mini 16GB 上的本地 AI 出图环境。四层引擎分工，跨两块�
 ## 快速开始
 
 ```bash
-cd <HDD卷>/work/projects/ai-image-lab
+cd <项目根>
 scripts/check-paths.sh        # 先自检：盘挂好了吗、软链断了吗
 scripts/start-drawthings.sh   # L1 出图（实测 33s）
 scripts/start-comfyui.sh      # L2 服务，浏览器开 127.0.0.1:8188
@@ -24,8 +23,9 @@ scripts/start-comfyui.sh      # L2 服务，浏览器开 127.0.0.1:8188
 # 1. 克隆（放哪都行，后面以 PATHS.env 为准）
 git clone git@github.com:earnan/ai-image-lab.git ~/ai-image-lab && cd ~/ai-image-lab
 
-# 2. 改 PATHS.env 顶部的卷与根变量，指向新机的实际路径
-vi PATHS.env
+# 2. 从模板生成本机配置（真实路径不入库，仓里只有模板）
+cp PATHS.env.example PATHS.env
+vi PATHS.env     # 只改顶部两行卷名，其余变量都由它们派生
 
 # 3. 一行恢复全部 16 条软链（幂等；目标不存在则跳过，不造坏链）
 scripts/relink.sh

@@ -1,7 +1,7 @@
 # MAP — ai-image-lab 一屏索引
 
 **更新**：2026-11-04　**用途**：任何一处打开，30 秒内回答「这套系统由什么组成、实体在哪、怎么启动」。
-**本项目的物理根**：`<HDD卷>/work/projects/ai-image-lab`（唯一逻辑根）。WIN11 侧同名目录只是**权重实体仓**，不是第二个项目根。
+**本项目的物理根**：`<项目根>`（唯一逻辑根）。WIN11 侧同名目录只是**权重实体仓**，不是第二个项目根。
 **路径真相源**：[PATHS.env](PATHS.env)。任何脚本里的 `/Volumes/...` 字面量都是技术债，改路径只改 PATHS.env。
 
 ---
@@ -48,7 +48,7 @@
 ## 四、启动与自检
 
 ```bash
-cd <HDD卷>/work/projects/ai-image-lab
+cd <项目根>
 scripts/check-paths.sh        # 先跑这个：全部路径有效吗？换盘/重启后必跑
 scripts/start-drawthings.sh   # L1
 scripts/start-comfyui.sh      # L2

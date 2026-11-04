@@ -1,4 +1,3 @@
-
 # 变更日志
 
 格式：每次变更记 **版本 / 日期 / Why / 做了什么**。Why 必填——只记做了什么，半年后没人知道为什么。
@@ -17,7 +16,7 @@ STATUS 原写着"四层出图链路全部可用"，但那是凭"端口在、文�
 
 **复测数据**
 - L1 `flux_2_klein_4b_q6p.ckpt` 512×512/4 步：`Total generation time 29.49s`（采样均值 4.10s/步）
-- L2：`8188` 在监听、GGUF 模型可见，但 `VAELoader`/`CheckpointLoaderSimple`/`LoraLoader`/`UpscaleModelLoader` 均 500，根因为进程内缓存旧路径 `<SSD卷>/旧权重目录/sd-webui-models/*`
+- L2：`8188` 在监听、GGUF 模型可见，但 `VAELoader`/`CheckpointLoaderSimple`/`LoraLoader`/`UpscaleModelLoader` 均 500，根因为进程内缓存旧路径 `<SSD卷>/<旧权重目录>/*`
 - L3：`/sdapi/v1/sd-models` 200，已加载 `chomni`、`CounterfeitV25_25`
 - L4：`scripts/.env` 不存在，未通
 

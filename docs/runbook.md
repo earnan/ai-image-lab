@@ -20,7 +20,7 @@
 ## 启动
 
 ```bash
-cd <HDD卷>/work/projects/ai-image-lab
+cd <项目根>
 
 # 0. 先自检（换盘/重启/动了软链之后必跑）
 scripts/check-paths.sh
@@ -51,7 +51,7 @@ scripts/gen_cloud.py --help
 
 ### 2. ComfyUI 启动但模型列表是空的
 
-L2 通过 `extra_model_paths.yaml` 的 `legacy_a1111.base_path` 挂 A1111 的老库。该值若指向旧路径（曾为 `<SSD卷>/旧权重目录/sd-webui-models`），列表就空。
+L2 通过 `extra_model_paths.yaml` 的 `legacy_a1111.base_path` 挂 A1111 的老库。该值若指向旧路径（曾为 `<SSD卷>/<旧权重目录>`），列表就空。
 
 ```bash
 grep base_path "$AIIL_APP_COMFY/extra_model_paths.yaml"
@@ -70,7 +70,7 @@ curl -s -o /dev/null -w "%{http_code}\n" http://127.0.0.1:8188/object_info/VAELo
 日志里的真实原因（`/tmp/comfyui_restart.log`）：
 
 ```text
-FileNotFoundError: [Errno 2] No such file or directory: '<SSD卷>/旧权重目录/sd-webui-models/Lora'
+FileNotFoundError: [Errno 2] No such file or directory: '<SSD卷>/<旧权重目录>/Lora'
   at folder_paths.py get_filename_list -> os.path.getmtime(folder)
 ```
 

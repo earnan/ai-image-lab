@@ -1,4 +1,3 @@
-
 > 本文件是 CLAUDE.md 的同源副本，给非 Claude 的 AI 工具读。**改规则请改 CLAUDE.md 再同步过来**，不要只改这里。
 
 # ai-image-lab
@@ -29,7 +28,7 @@ macOS（M2 Mac mini 16GB）本机本地出图环境：一套四层架构（L1–
 ## 目录结构
 
 ```
-<HDD卷>/work/projects/ai-image-lab/     ← 唯一逻辑根
+<项目根>/     ← 唯一逻辑根
 ├── MAP.md              一屏索引（组成/实体位置/启动/禁忌）
 ├── PATHS.env           绝对路径唯一真相源，脚本 source 它
 ├── README.md           项目入口与工作区约定

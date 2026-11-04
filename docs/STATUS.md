@@ -1,4 +1,3 @@
-
 # 项目状态
 
 **更新**：2026-11-04
@@ -19,7 +18,7 @@
 
 ## 当前阻塞
 
-- [x] **L2 loader 枚举故障（已解决 2026-11-04）**：`extra_model_paths.yaml` 已全部指向正确路径，但常驻进程（16:36 启动）内存中仍是旧路径 `<SSD卷>/旧权重目录/sd-webui-models/*`，导致 `VAELoader` / `CheckpointLoaderSimple` / `LoraLoader` / `UpscaleModelLoader` 的 `/object_info` 返回 **500**。重启后 6 类 loader 全 200、出图复测 81.2s。机理见 [runbook §2.1](runbook.md)。
+- [x] **L2 loader 枚举故障（已解决 2026-11-04）**：`extra_model_paths.yaml` 已全部指向正确路径，但常驻进程（16:36 启动）内存中仍是旧路径 `<SSD卷>/<旧权重目录>/*`，导致 `VAELoader` / `CheckpointLoaderSimple` / `LoraLoader` / `UpscaleModelLoader` 的 `/object_info` 返回 **500**。重启后 6 类 loader 全 200、出图复测 81.2s。机理见 [runbook §2.1](runbook.md)。
 - [ ] **L4 云端未通**：`scripts/gen_cloud.py` 就绪，`.env` 缺 API KEY。不做也能用 L1–L3，故不阻塞其他工作。
 
 ## 健康检查（三条命令）

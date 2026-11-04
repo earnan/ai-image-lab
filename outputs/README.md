@@ -1,4 +1,3 @@
-
 # outputs/ —— 运行产物落点
 
 本目录**不入 git**（见根目录 `.gitignore`）。此 README 是唯一入库的文件。
