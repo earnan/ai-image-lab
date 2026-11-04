@@ -1,0 +1,40 @@
+# ── macOS 系统文件 ──
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+
+# ── Python ──
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# ── 机密：L4 云端 API KEY，只提交 .env.example ──
+scripts/.env
+.env
+.env.local
+
+# ── 运行产物：不入库 ──
+# 30M 且持续增长，图片二进制无版本比对价值；可复现的是参数，而参数在
+# workflows/ 与 scripts/ 里，已入库。目录语义见 outputs/README.md
+outputs/**
+!outputs/README.md
+
+# ── 日志与临时 ──
+*.log
+logs/
+_sdwebui-backup/
+tmp/
+temp/
+*.tmp
+*.pid
+
+# ── 编辑器 ──
+.vscode/
+.idea/
+*.swp
+
+# ── 说明 ──
+# apps/ 与 models/ 下的 16 个软链是刻意入库的：git 只存指向字符串（几十字节），
+# 换机后照 README 重建即可。软链断了查 docs/runbook.md §排查 1，不要 cp 实体。

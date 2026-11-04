@@ -1,0 +1,24 @@
+#!/bin/sh
+# ComfyUI 启动器（L2 层）
+# 所有路径来自 ../PATHS.env，本文件不硬编码任何 /Volumes 路径。
+
+SELF_DIR=$(cd "$(dirname "$0")" && pwd)
+. "$SELF_DIR/../PATHS.env" || { echo "❌ 找不到 PATHS.env"; exit 1; }
+
+OUT_DIR="$AIIL_OUT_COMFY"
+mkdir -p "$OUT_DIR"
+cd "$AIIL_APP_COMFY" || { echo "❌ 引擎目录不可用: $AIIL_APP_COMFY"; exit 1; }
+
+if curl -s -o /dev/null --max-time 2 "http://127.0.0.1:$AIIL_PORT_COMFY/"; then
+    echo "ComfyUI 已在运行: http://127.0.0.1:$AIIL_PORT_COMFY"
+    exit 0
+fi
+
+echo "启动 ComfyUI (MPS) ..."
+echo "  引擎: $AIIL_APP_COMFY"
+echo "  模型: $AIIL_WEIGHTS （经 extra_model_paths.yaml 挂载）"
+echo "  产物: $OUT_DIR"
+exec .venv/bin/python main.py \
+    --listen 127.0.0.1 \
+    --port "$AIIL_PORT_COMFY" \
+    --output-directory "$OUT_DIR"

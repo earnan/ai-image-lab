@@ -1,0 +1,22 @@
+#!/bin/sh
+# Draw Things CLI 启动器（L1 层，苹果原生 Metal 快速出图）
+# 所有路径来自 ../PATHS.env，本文件不硬编码任何 /Volumes 路径。
+
+SELF_DIR=$(cd "$(dirname "$0")" && pwd)
+. "$SELF_DIR/../PATHS.env" || { echo "❌ 找不到 PATHS.env"; exit 1; }
+
+OUT_DIR="$AIIL_OUT_DT"
+mkdir -p "$OUT_DIR" "$AIIL_W_DRAWTHINGS"
+cd "$AIIL_APP_DT" || { echo "❌ 引擎目录不可用: $AIIL_APP_DT"; exit 1; }
+
+echo "Draw Things CLI 就绪"
+echo "  模型目录: $AIIL_W_DRAWTHINGS"
+echo "  产物目录: $OUT_DIR"
+echo "  用法示例:"
+echo "    ./draw-things-cli generate \\"
+echo "      --model flux_2_klein_4b_q6p.ckpt \\"
+echo "      --prompt \"a red ceramic teapot on wooden table\" \\"
+echo "      --width 512 --height 512 --steps 4 \\"
+echo "      --output \"$OUT_DIR/dt_001.png\""
+echo ""
+exec ./draw-things-cli --help 2>&1 | head -30
